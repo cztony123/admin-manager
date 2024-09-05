@@ -24,21 +24,19 @@
 				<el-menu-item index="/home">
 					<i class="el-icon-menu"></i><span slot="title">首页</span>
 				</el-menu-item>
-				<!-- <el-submenu index="2">
+				<el-submenu index="2">
                     <template slot="title">
-                        <i class="el-icon-location"></i
-                        ><span slot="title">信息管理</span>
+                        <i class="el-icon-location"></i>
+                        <span slot="title">财务管理</span>
                     </template>
                     <el-menu-item-group>
-                        <el-menu-item index="/booktype">
-                            <span slot="title">类别管理</span>
-                        </el-menu-item>
-                        <el-menu-item index="/bookinfo">
-                            <span slot="title">信息管理</span>
+                        <el-menu-item index="/memberOrder">
+                            <i class="el-icon-s-order"></i>
+                            <span slot="title">会员订单</span>
                         </el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
-                <el-submenu index="3">
+                <!-- <el-submenu index="3">
                     <template slot="title">
                         <i class="el-icon-s-platform"></i
                         ><span slot="title">库存管理</span>
@@ -65,10 +63,8 @@
 		<!-- 主区域 -->
 		<div class="main">
 			<el-breadcrumb separator-class="el-icon-arrow-right" v-show="$route.path !='/'">
-				<el-breadcrumb-item
-					v-show="$route.path=='/booktype' || $route.path== '/bookinfo'">信息管理</el-breadcrumb-item>
-				<el-breadcrumb-item
-					v-show="$route.path=='/chukusearch' || $route.path== '/kucunsearch' || $route.path== '/rukusearch'">库存管理</el-breadcrumb-item>
+				<el-breadcrumb-item v-show="$route.path=='/memberOrder' || $route.path== '/bookinfo'">财务管理</el-breadcrumb-item>
+				<el-breadcrumb-item v-show="$route.path=='/chukusearch' || $route.path== '/kucunsearch' || $route.path== '/rukusearch'">库存管理</el-breadcrumb-item>
 				<el-breadcrumb-item :to="{path: $route.path}">{{$route.meta.title}}</el-breadcrumb-item>
 			</el-breadcrumb>
 			<router-view />
@@ -162,7 +158,6 @@
 		bottom: 0;
 		padding: 20px;
 		overflow-y: auto;
-		color: #fff;
 
 		.el-breadcrumb {
 			height: 10px;

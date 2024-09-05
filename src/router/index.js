@@ -23,6 +23,14 @@ const routes = [
                     title:"首页"
                 }
             },
+            {
+                path: "/memberOrder",
+                name: 'memberOrder',
+                component: () => import('../views/financeManage/memberOrder.vue'),
+                meta:{
+                    title:"会员订单"
+                }
+            },
         ]
     }
 ]
