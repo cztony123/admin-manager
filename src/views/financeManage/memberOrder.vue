@@ -29,16 +29,30 @@
             <el-table-column prop="userId" label="会员ID" align="center" />
             <el-table-column prop="orderNum" label="订单号" align="center" />
             <el-table-column prop="userName" label="会员昵称" align="center" />
-            <el-table-column prop="depositType" label="充值类型" align="center" />
+            <el-table-column label="充值类型" align="center">
+                <template slot-scope="scope">
+                    {{ handelDepositType(scope.row.depositType) }}
+                </template>
+            </el-table-column> 
             <el-table-column prop="depositAmount" label="充值金额" align="center" />
             <el-table-column prop="dateTime" label="充值时间" align="center" />
             <el-table-column label="操作" align="center" width="150">
                 <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                    <el-button type="text" size="small">编辑</el-button>
+                    <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button type="text" size="small">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+
+        <el-pagination 
+            @size-change="handleSizeChange" 
+            @current-change="handleCurrentChange" 
+            :current-page="page.pageNum" 
+            :page-sizes="[10, 20, 30, 500]" 
+            :page-size="10" 
+            layout="total, sizes, prev, pager, next, jumper" 
+            :total="total"
+        />
     </div>
 </template>
 
@@ -65,7 +79,8 @@ export default {
                 pageSize: 10
             },
             orderList: [],
-            dataList: []
+            dataList: [],
+            total: 0
         }
     },
 
@@ -75,6 +90,7 @@ export default {
     },
 
     methods: {
+        //充值类型下拉列表
         handelSelect() {
             getOrderList().then(res => {
                 if (res.code == 200) {
@@ -83,6 +99,11 @@ export default {
             })
         },
 
+        //处理充值类型
+        handelDepositType(val){
+            let obj = this.orderList.find(item => item.id == val)
+            return obj.name
+        },
 
         //查询按钮
         handleQuery() {
@@ -96,6 +117,7 @@ export default {
             getOrderData(params).then(res => {
                 if (res.code == 200) {
                     this.dataList = res.data
+                    this.total = res.total
                 }
             })
         },
@@ -107,10 +129,27 @@ export default {
 
         handleClick() {
 
+        },
+
+        handleSizeChange(val) {
+            this.page.pageSize = val
+            this.handleQuery() 
+        },
+        handleCurrentChange(val) {
+            this.page.pageNum = val
+            this.handleQuery() 
         }
     }
 }
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-table .el-table__cell{
+    padding: 8px 0
+}
+.el-pagination{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+}
 </style>
