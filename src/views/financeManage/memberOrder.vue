@@ -44,7 +44,8 @@
             </el-table-column>
         </el-table>
 
-        <el-pagination 
+        <el-pagination
+            v-if="total > 0"
             @size-change="handleSizeChange" 
             @current-change="handleCurrentChange" 
             :current-page="page.pageNum" 
@@ -124,7 +125,8 @@ export default {
 
         //重置按钮
         resetQuery() {
-
+            this.form = {}
+            this.dateRange = []
         },
 
         handleClick() {

@@ -9,6 +9,7 @@ axios.create({
 
 //请求拦截器
 axios.interceptors.request.use(function(config){
+    config.headers['token'] = JSON.parse(localStorage.getItem('userInfo')) ? JSON.parse(localStorage.getItem('userInfo')).token : ''
     return config;
 },
 function(error){

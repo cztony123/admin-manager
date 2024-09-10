@@ -31,6 +31,14 @@ const routes = [
                     title:"会员订单"
                 }
             },
+            {
+                path: "/stockQuery",
+                name: 'stockQuery',
+                component: () => import('../views/stockManage/stockQuery.vue'),
+                meta:{
+                    title:"库存查询"
+                }
+            },
         ]
     }
 ]
