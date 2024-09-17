@@ -72,18 +72,11 @@ export default {
             if(row){
                 this.form.id = row.id
                 this.form.teaName = row.teaName
-                this.form.unit = this.handeleData(row.unit, 'unit')
-                this.form.level = this.handeleData(row.level, 'level')
+                this.form.unit = Number(row.unit)
+                this.form.level = Number(row.level)
                 this.form.reality = row.reality
                 this.form.totalCost = row.totalCost
             }
-        },
-
-        //处理单位和等级
-        handeleData(val, lable) {
-            let isData = lable == 'unit' ? this.unitList : this.levelList
-            let obj = isData.find(item => item.id == val)
-            return obj.name
         },
 
         //点击确认按钮
@@ -95,7 +88,7 @@ export default {
                             if(res.code == 200){
                                 this.$emit('success')
                                 this.$message.success(res.message)
-                                this.form = {}
+                                this.form = this.$options.data().form
                                 this.centerDialogVisible = false
                             }else{
                                 this.$message.error(res.message)
@@ -116,13 +109,13 @@ export default {
 
         //点击取消按钮
         handleCancel(){
-            this.form = {}
+            this.form = this.$options.data().form
             this.centerDialogVisible = false
         },
 
         //点击叉
         handleClose(){
-            this.form = {}
+            this.form = this.$options.data().form
             this.centerDialogVisible = false
         }
     }
