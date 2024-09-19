@@ -39,6 +39,14 @@ const routes = [
                     title:"库存查询"
                 }
             },
+            {
+                path: "/user",
+                name: 'user',
+                component: () => import('../views/user/index.vue'),
+                meta:{
+                    title:"个人中心"
+                }
+            },
         ]
     }
 ]
