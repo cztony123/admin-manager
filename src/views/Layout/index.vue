@@ -8,7 +8,8 @@
             </a>
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+                    <img :src="imgUrl" class="avatar">
+                    <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item icon="el-icon-user" @click.native="personalCenter">个人中心</el-dropdown-item>
@@ -70,8 +71,11 @@
 export default {
     data() {
         return {
-
+            imgUrl: ''
         }
+    },
+    created() {
+        this.imgUrl = this.$store.state.userInfo.imgUrl
     },
     methods: {
         //退出按钮
@@ -125,8 +129,23 @@ export default {
     }
 
     .el-dropdown {
-        float: right;
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
         margin-right: 30px;
+        span{
+            height: 40px;
+        }
+        img{
+            margin-top: 20px;
+        }
+    }
+
+    .avatar{
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
     }
 }
 

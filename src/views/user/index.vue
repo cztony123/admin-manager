@@ -53,33 +53,97 @@
             </div>
         </el-card>
 
+
+
+
         <!-- 右侧 -->
         <el-card class="box-card right">
             <div slot="header" class="clearfix">
                 <span>基本资料</span>
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-                {{'列表内容 ' + o }}
+            <div>
+                <el-tabs v-model="activeName">
+                    <el-tab-pane label="基本资料" name="1">
+                        <el-form label-width="80px">
+                            <el-form-item label="用户昵称">
+                                <el-input v-model="user.userName" size="small" clearable placeholder="请输入用户昵称"></el-input>
+                            </el-form-item>
+                            <el-form-item label="手机号码">
+                                <el-input v-model="user.tel" size="small" clearable placeholder="请输入手机号码"></el-input>
+                            </el-form-item>
+                            <el-form-item label="邮箱">
+                                <el-input v-model="user.mail" size="small" clearable placeholder="请输入邮箱"></el-input>
+                            </el-form-item>
+                            <el-form-item label="性别">
+                                <el-radio v-model="user.sex" label="1">男</el-radio>
+                                <el-radio v-model="user.sex" label="2">女</el-radio>
+                            </el-form-item>
+
+                            <el-form-item>
+                                <el-button type="primary" size="small" @click="handleSubmit">保存</el-button>
+                                <el-button type="danger" size="small" @click="handleClos">关闭</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+
+
+                    <el-tab-pane label="修改密码" name="2">
+                        <el-form label-width="80px">
+                            <el-form-item label="旧密码">
+                                <el-input v-model="pwd.oldPassword" size="small" clearable placeholder="请输入旧密码"></el-input>
+                            </el-form-item>
+                            <el-form-item label="新密码">
+                                <el-input v-model="pwd.newPassword" size="small" clearable placeholder="请输入新密码"></el-input>
+                            </el-form-item>
+                            <el-form-item label="确认密码">
+                                <el-input v-model="okpwd" size="small" clearable placeholder="请确认密码"></el-input>
+                            </el-form-item>
+
+                            <el-form-item>
+                                <el-button type="primary" size="small" @click="handlePwdSubmit">保存</el-button>
+                                <el-button type="danger" size="small" @click="handleClos">关闭</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-tab-pane>
+                </el-tabs>
             </div>
         </el-card>
     </div>
 </template>
 
 <script>
-import { upload } from '../../api/userApi'
+import { upload, userEdit, pwdEdit } from '../../api/userApi'
 export default {
     data() {
         return {
             userInfo: {},
+            activeName: '1',
             user:{
-                imgUrl: ''
+                userid: '',
+                imgUrl: '',
+                userName: '',
+                tel: '',
+                mail: '',
+                sex: '2',
             },
-            pwd:{},
+            pwd:{
+                userid: '',
+                oldPassword: '',
+                newPassword: '',
+            },
+            okpwd: ''
         }
     },
 
     created() {
         this.userInfo = this.$store.state.userInfo
+        this.user.userid = this.$store.state.userInfo.userid
+        this.pwd.userid = this.$store.state.userInfo.userid
+        this.user.imgUrl = this.$store.state.userInfo.imgUrl
+        this.user.userName = this.$store.state.userInfo.userName
+        this.user.tel = this.$store.state.userInfo.tel
+        this.user.mail = this.$store.state.userInfo.mail
+        this.user.sex = this.$store.state.userInfo.sex
     },
     methods: {
         //上传头像
@@ -105,7 +169,37 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
             return isJPG && isLt2M;
-        }
+        },
+        
+        //保存基本资料按钮
+        handleSubmit(){
+            userEdit(this.user).then(res =>{
+                if(res.code == 200){
+                    localStorage.setItem('userInfo', JSON.stringify(res.data));
+                    this.$message.error(res.message);
+                    this.$router.go(0)
+                }
+            })
+        },
+
+        //保存密码按钮
+        handlePwdSubmit(){
+            if(this.okpwd != this.pwd.newPassword){
+                this.$message.error('两次密码不一致');
+                return
+            }
+            pwdEdit(this.pwd).then(res =>{
+                if(res.code == 200){
+                    localStorage.setItem('userInfo', JSON.stringify(res.data));
+                    this.$message.error(res.message);
+                }
+            })
+        },
+
+        //关闭按钮
+        handleClos(){
+            this.$router.push('/home')
+        },
     }
 }
 </script>

@@ -95,6 +95,7 @@ export default {
 
             //请求接口
             getHomeData(params).then(res =>{
+                
                 if(res.code == 200){
                     this.stock = res.data.stock
                     this.funds = res.data.funds
