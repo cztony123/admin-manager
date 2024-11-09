@@ -87,7 +87,9 @@ export default {
 
         //个人中心按钮
         personalCenter(){
-            this.$router.push('/user')
+            if(this.$route.fullPath != '/user'){
+                this.$router.push('/user')
+            }
         }
     }
 };
